@@ -670,7 +670,12 @@ def main():
                                 if st.button("Unsubscribe", key=f"del_{sub['subscription_id']}"):
                                     supabase.table("subscription").delete().eq("id", sub['subscription_id']).execute()
                                     st.success("✅ Unsubscribed successfully!")
-                                    st.experimental_rerun()
+                                    # st.experimental_rerun()
+                                    if hasattr(st, 'experimental_rerun'):
+                                        st.experimental_rerun()
+                                    else:
+                                         # fallback or restart logic (usually you just want to reload the app)
+                                        pass
 
                                 # Toggle edit form
                                 if f'editing_{sub["subscription_id"]}' not in st.session_state:
@@ -693,7 +698,13 @@ def main():
                                             }).eq("subscription_id", sub['subscription_id']).execute()
                                             st.success("✅ Subscription updated!")
                                             st.session_state[f'editing_{sub["subscription_id"]}'] = False
-                                            st.experimental_rerun()
+                                            # st.experimental_rerun()
+                                            if hasattr(st, 'experimental_rerun'):
+                                                st.experimental_rerun()
+                                            else:
+                                                # fallback or restart logic (usually you just want to reload the app)
+                                                pass
+
                                     if st.button("Cancel Edit", key=f"cancel_{sub['subscription_id']}"):
                                         st.session_state[f'editing_{sub["subscription_id"]}'] = False
                     else:
