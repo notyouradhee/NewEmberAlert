@@ -166,8 +166,11 @@ def load_data(country):
 @st.cache_resource
 def load_model_artifacts():
     import joblib
-    model = joblib.load("./models/wildfire_predictor_model.pkl")
-    scaler = joblib.load("./models/wildfire_predictor_scaler.pkl")
+    base_dir = os.path.dirname(__file__)
+    model_path = os.path.join(base_dir, "models", "wildfire_predictor_model.pkl")
+    scaler_path = os.path.join(base_dir, "models", "wildfire_predictor_scaler.pkl")
+    model = joblib.load(model_path)
+    scaler = joblib.load(scaler_path)
     return model, scaler
 
 @st.cache_data(show_spinner=False)
