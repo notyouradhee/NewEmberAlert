@@ -668,7 +668,7 @@ def main():
                             ):
                                 # Unsubscribe button
                                 if st.button("Unsubscribe", key=f"del_{sub['subscription_id']}"):
-                                    supabase.table("subscription").delete().eq("id", sub['subscription_id']).execute()
+                                    supabase.table("subscription").delete().eq("subscription_id", sub['subscription_id']).execute()
                                     st.success("✅ Unsubscribed successfully!")
                                     # st.experimental_rerun()
                                     if hasattr(st, 'experimental_rerun'):
