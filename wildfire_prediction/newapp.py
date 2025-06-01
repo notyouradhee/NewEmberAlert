@@ -668,14 +668,25 @@ def main():
                             ):
                                 # Unsubscribe button
                                 if st.button("Unsubscribe", key=f"del_{sub['subscription_id']}"):
-                                    supabase.table("subscription").delete().eq("subscription_id", sub['subscription_id']).execute()
-                                    st.success("✅ Unsubscribed successfully!")
-                                    # st.experimental_rerun()
-                                    if hasattr(st, 'experimental_rerun'):
-                                        st.experimental_rerun()
+                                    sub_id = sub.get('subscription_id')
+                                    if sub_id:
+                                        try:
+                                            supabase.table("subscription").delete().eq("subscription_id", sub_id).execute()
+                                            st.success("✅ Unsubscribed successfully!")
+                                            if hasattr(st, 'experimental_rerun'):
+                                                st.experimental_rerun()
+                                        except Exception as e:
+                                            st.error(f"❌ Failed to unsubscribe: {e}")
                                     else:
-                                         # fallback or restart logic (usually you just want to reload the app)
-                                        pass
+                                        st.warning("⚠️ Invalid subscription ID.")
+                                    # supabase.table("subscription").delete().eq("subscription_id", sub['subscription_id']).execute()
+                                    # st.success("✅ Unsubscribed successfully!")
+                                    # # st.experimental_rerun()
+                                    # if hasattr(st, 'experimental_rerun'):
+                                    #     st.experimental_rerun()
+                                    # else:
+                                    #      # fallback or restart logic (usually you just want to reload the app)
+                                    #     pass
 
                                 # Toggle edit form
                                 if f'editing_{sub["subscription_id"]}' not in st.session_state:
